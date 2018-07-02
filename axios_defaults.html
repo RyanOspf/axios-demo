@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+//全局的axios默认值
+axios.defaults.baseURL = 'http://dbxdev.s1.natapp.cc';
+axios.defaults.headers.common['Authorization'] = 'appid123';
+axios.defaults.headers.post['Content-Type']='application/x-www-form-urlencoded';
+
+//请求拦截
+axios.interceptors.request.use(config=>{
+	console.log(config);
+	// if(config.headers.common.Authorization == 'appid123'){
+	// 	console.log(1);
+	// 	window.location.href = 'http://www.baidu.com';
+	// }
+
+	return config;
+},error=>{
+	console.log(error);
+	console.log(error.response);
+})
+
+//响应拦截
+axios.interceptors.response.use(data=>{
+	console.log(data);
+	data.abc = 123;
+	return data;
+},error=>{
+	console.log(error,error.response);
+})
+
+axios.get('/api/departs').then((res)=>{
+	console.log(res);
+}).catch((error)=>{
+	console.log(error);
+})
+
+
+</script>
+</body>
+</html>

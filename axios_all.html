@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>并发请求</title>
+</head>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<body>
+<script type="text/javascript">
+
+
+let HTTP = axios.create({
+	baseURL:'http://dbxdev.s1.natapp.cc/',
+	responseType:'json'
+})	
+
+
+//请求拦截
+HTTP.interceptors.request.use(config=>{
+	console.log(config);
+	return config
+},error=>{
+	console.log(error);
+})
+
+//响应拦截
+HTTP.interceptors.response.use(data=>{
+	console.log(data);
+	return data;
+},error=>{
+	console.log(error);
+})
+
+
+
+function getDeparts(){
+	return HTTP.get('api/departs');
+}
+
+function getDoctorList(){
+	return HTTP.get('api/doctors?depart_id=27');
+}
+
+
+
+//这种写法res得到的是一个数组，存放着每个函数的请求
+/*
+axios.all([getDeparts(),getDoctorList()]).then((res)=>{
+	console.log(res); //得到是一个数组与上面一一对应
+}).catch((err)=>{
+	console.log(err);
+})
+*/
+
+//用axios.spread可以分开去取值
+axios.all([getDeparts(),getDoctorList()]).then(axios.spread((res1,res2)=>{
+	console.log(res1,res2);
+})).catch((err)=>{
+	console.log(err);
+})
+
+
+
+</script>
+</body>
+</html>

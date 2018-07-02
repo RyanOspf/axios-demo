@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+	
+let HTTP = axios.create({
+	baseURL:'http://dbxdev.s1.natapp.cc/',
+	timeout:1000,	//如果请求超过一秒钟就是请求超时
+	responseType:'json', //将请求得到的数据自动转换为json
+	params:{	//查询字符串
+		book:'123'
+	},
+	// headers:{	//自定义请求头
+	// 	"custom-header":"miaov",
+	// },
+})
+
+HTTP.get('api/departs').then((res)=>{
+	console.log(res);
+}).catch((err)=>{
+	console.log(err);
+	console.log(err.response);
+})
+
+</script>
+</body>
+</html>
